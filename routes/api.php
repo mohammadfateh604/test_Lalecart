@@ -22,7 +22,7 @@ Route::prefix('categories')->group(function () {
 
 Route::prefix('posts')->group(function () {
     Route::get('/', [App\Http\Controllers\Api\PostController::class, 'index']);
-    Route::post('/', [App\Http\Controllers\Api\PostController::class, 'store']);
+    Route::post('/', [App\Http\Controllers\Api\PostController::class, 'store'])->middleware('auth:sanctum');
     Route::get('/{post}', [App\Http\Controllers\Api\PostController::class, 'show']);
     Route::put('/{post}', [App\Http\Controllers\Api\PostController::class, 'update'])->middleware('can:publish,post');;
     Route::delete('/{post}', [App\Http\Controllers\Api\PostController::class, 'destroy'])->middleware('can:publish,post');;
