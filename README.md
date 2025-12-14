@@ -1,59 +1,287 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# API Documentation
+### Categories API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+#### Get All Categories
+```
+GET /api/categories
+```
 
-## About Laravel
+**Query Parameters:**
+- `active` (boolean): Filter by active status
+- `featured` (boolean): Filter by featured status
+- `root` (boolean): Get only root categories
+- `parent_id` (integer): Filter by parent category
+- `search` (string): Search in name and description
+- `order_by` (string): Order by field (default: sort_order)
+- `order_direction` (string): asc or desc (default: asc)
+- `per_page` (integer): Items per page (default: 15)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+#### Create Category
+```
+POST /api/categories
+```
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+**Body:**
+```json
+{
+    "name": "Category Name",
+    "description": "Category Description",
+    "image": "image_file",
+    "color": "#FF0000",
+    "is_active": true,
+    "is_featured": false,
+    "sort_order": 1,
+    "parent_id": null
+}
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+#### Get Category
+```
+GET /api/categories/{id}
+```
 
-## Learning Laravel
+#### Update Category
+```
+PUT /api/categories/{id}
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+#### Delete Category
+```
+DELETE /api/categories/{id}
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+#### Get Category Posts
+```
+GET /api/categories/{id}/posts
+```
 
-## Laravel Sponsors
+#### Get Category Children
+```
+GET /api/categories/{id}/children
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+#### Get Category Breadcrumb
+```
+GET /api/categories/{id}/breadcrumb
+```
 
-### Premium Partners
+### Posts API
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+#### Get All Posts
+```
+GET /api/posts
+```
 
-## Contributing
+**Query Parameters:**
+- `status` (string): Filter by status (draft, published, archived)
+- `visibility` (string): Filter by visibility (public, private, password_protected)
+- `category_id` (integer): Filter by category
+- `author_id` (integer): Filter by author
+- `tag_id` (integer): Filter by tag
+- `featured` (boolean): Filter by featured posts
+- `sticky` (boolean): Filter by sticky posts
+- `search` (string): Search in title and content
+- `popular` (boolean): Get popular posts
+- `recent` (boolean): Get recent posts
+- `order_by` (string): Order by field (default: published_at)
+- `order_direction` (string): asc or desc (default: desc)
+- `per_page` (integer): Items per page (default: 15)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+#### Create Post
+```
+POST /api/posts
+```
 
-## Code of Conduct
+**Body:**
+```json
+{
+    "title": "Post Title",
+    "content": "Post Content",
+    "excerpt": "Post Excerpt",
+    "featured_image": "image_file",
+    "meta_title": "Meta Title",
+    "meta_description": "Meta Description",
+    "meta_keywords": ["keyword1", "keyword2"],
+    "status": "published",
+    "visibility": "public",
+    "allow_comments": true,
+    "is_featured": false,
+    "is_sticky": false,
+    "published_at": "2024-01-01 12:00:00",
+    "author_id": 1,
+    "category_id": 1,
+    "tags": [1, 2, 3]
+}
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#### Get Post
+```
+GET /api/posts/{id}
+```
 
-## Security Vulnerabilities
+#### Update Post
+```
+PUT /api/posts/{id}
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+#### Delete Post
+```
+DELETE /api/posts/{id}
+```
 
-## License
+#### Publish Post
+```
+POST /api/posts/{id}/publish
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+#### Unpublish Post
+```
+POST /api/posts/{id}/unpublish
+```
+
+#### Archive Post
+```
+POST /api/posts/{id}/archive
+```
+
+#### Get Related Posts
+```
+GET /api/posts/{id}/related?limit=5
+```
+
+#### Get Next Post
+```
+GET /api/posts/{id}/next
+```
+
+#### Get filter title Post
+```
+GET /api/posts?title=php
+```
+
+#### Get Previous Post
+```
+GET /api/posts/{id}/previous
+```
+
+#### Like Post
+```
+POST /api/posts/{id}/like
+```
+
+#### Unlike Post
+```
+POST /api/posts/{id}/unlike
+```
+
+### Tags API
+
+#### Get All Tags
+```
+GET /api/tags
+```
+
+**Query Parameters:**
+- `active` (boolean): Filter by active status
+- `search` (string): Search in name and description
+- `popular` (boolean): Get popular tags
+- `limit` (integer): Limit for popular tags (default: 10)
+- `order_by` (string): Order by field (default: post_count)
+- `order_direction` (string): asc or desc (default: desc)
+- `per_page` (integer): Items per page (default: 15)
+
+#### Create Tag
+```
+POST /api/tags
+```
+
+**Body:**
+```json
+{
+    "name": "Tag Name",
+    "name_en": "English Name",
+    "name_ar": "Arabic Name",
+    "description": "Tag Description",
+    "color": "#FF0000",
+    "is_active": true
+}
+```
+
+#### Get Tag
+```
+GET /api/tags/{id}
+```
+
+#### Update Tag
+```
+PUT /api/tags/{id}
+```
+
+#### Delete Tag
+```
+DELETE /api/tags/{id}
+```
+
+#### Get Tag Posts
+```
+GET /api/tags/{id}/posts
+```
+
+#### Get Popular Posts for Tag
+```
+GET /api/tags/{id}/popular-posts?limit=5
+```
+
+#### Get Recent Posts for Tag
+```
+GET /api/tags/{id}/recent-posts?limit=5
+```
+
+#### Get Random Posts for Tag
+```
+GET /api/tags/{id}/random-posts?limit=5
+```
+
+#### Get Related Tags
+```
+GET /api/tags/{id}/related?limit=5
+```
+
+#### Get Tag Statistics
+```
+GET /api/tags/{id}/statistics?year=2024
+```
+
+#### Get Popular Tags
+```
+GET /api/tags/popular?limit=10
+```
+
+#### Get Tags with Post Count
+```
+GET /api/tags/with-post-count?limit=10
+```
+
+#### Find or Create Tag
+```
+POST /api/tags/find-or-create
+```
+
+**Body:**
+```json
+{
+    "name": "Tag Name"
+}
+```
+
+#### Find or Create Multiple Tags
+```
+POST /api/tags/find-or-create-multiple
+```
+
+**Body:**
+```json
+{
+    "names": ["Tag 1", "Tag 2", "Tag 3"]
+}
+```
